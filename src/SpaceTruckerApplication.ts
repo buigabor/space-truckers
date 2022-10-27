@@ -1,35 +1,69 @@
+import { AstroFactory } from "@/AstroFactory";
+import { SpaceTruckerLoadingScreen } from "@/SpaceTruckerLoadingScreen";
+import setBaseAssetURL from "@/systems/setBaseAssetURL";
 import {
     ArcRotateCamera,
     Color3,
     Engine,
+    GlowLayer,
     Mesh,
-    MeshBuilder,
     PointLight,
     Scalar,
     Scene,
-    StandardMaterial,
     Texture,
     Vector3,
 } from "@babylonjs/core";
 import { StarfieldProceduralTexture } from "@babylonjs/procedural-textures";
+import { AppStates } from "./appstates";
+import logger from "@/logger";
 
-export class AppStartScene {
+setBaseAssetURL();
+export class SpaceTruckerApplication {
     private engine: Engine;
     private scene: Scene;
 
     constructor(readonly canvas: HTMLCanvasElement) {
         this.engine = new Engine(canvas);
+        this.engine.loadingScreen = new SpaceTruckerLoadingScreen(this.engine);
         window.addEventListener("resize", () => {
             this.engine.resize();
         });
         this.scene = createScene(this.engine, this.canvas);
-        this.injectInspector(this.scene);
+    }
+
+    *appStateMachine() {
+        let previousState: AppStates | null = null;
+        let currentState: AppStates | null = null;
+
+        function setState(newState: AppStates) {
+            previousState = currentState;
+            currentState = newState;
+            logger.logInfo(
+                "App state changed. Previous state:" +
+                    previousState +
+                    " New state: " +
+                    newState
+            );
+            return newState;
+        }
+
+        while (true) {
+            let nextState: AppStates | null = yield currentState;
+            if (nextState !== null && nextState !== undefined) {
+                setState(nextState);
+                if (nextState === AppStates.EXITING) {
+                    return currentState;
+                }
+            }
+        }
     }
 
     run() {
         this.engine.runRenderLoop(() => {
             this.scene.render();
         });
+
+        this.injectInspector(this.scene);
     }
 
     public async injectInspector(scene: Scene) {
@@ -55,14 +89,14 @@ const createScene = function (engine: Engine, canvas: HTMLCanvasElement) {
     return startScene.scene;
 };
 
-interface SceneHolder {
+export interface SceneHolder {
     scene: Scene;
     camera: ArcRotateCamera;
-    star: any;
-    planets: any;
+    star: Mesh;
+    planets: Mesh[];
 }
 
-const createStartScene = (engine: Engine) => {
+export const createStartScene = (engine: Engine) => {
     const camAlpha = 0;
     const camBeta = -Math.PI / 4;
     const camDist = 350;
@@ -71,8 +105,8 @@ const createStartScene = (engine: Engine) => {
     const scene = new Scene(engine);
 
     const env = setupEnvironment(scene);
-    const star = createStar(scene);
-    const planets = populatePlanetarySystems(scene);
+    const star = AstroFactory.createStar(scene);
+    const planets = populatePlanetarySystem(scene);
 
     const camera = new ArcRotateCamera(
         "camera1",
@@ -121,65 +155,11 @@ const setupEnvironment = (scene: Scene) => {
     return env;
 };
 
-const createStar = (scene: Scene) => {
-    const starDiam = 16;
-    const star = MeshBuilder.CreateSphere(
-        "star",
-        { diameter: starDiam, segments: 128 },
-        scene
-    );
-
-    const mat = new StandardMaterial("starMat", scene);
-
-    star.material = mat;
-
-    // Yellowish color
-    mat.emissiveColor = new Color3(0.37, 0.333, 0.11);
-    mat.diffuseTexture = new Texture("assets/textures/distortion.png", scene);
-    mat.diffuseTexture.level = 1.8;
-
-    return star;
-};
-
-interface PlanetOption {
-    name: string;
-    posRadians: number;
-    posRadius: number;
-    scale: number;
-    color: Color3;
-    rocky: boolean;
-}
-
-const createPlanet = (opts: PlanetOption, scene: Scene) => {
-    const planet = MeshBuilder.CreateSphere(opts.name, { diameter: 1 }, scene);
-
-    const mat = new StandardMaterial(planet.name + "-mat", scene);
-    mat.diffuseColor = mat.specularColor = opts.color;
-    mat.specularPower = 0;
-
-    if (opts.rocky) {
-        mat.bumpTexture = new Texture("assets/textures/rockn.png", scene);
-        mat.diffuseTexture = new Texture("assets/textures/rock.png", scene);
-    } else {
-        mat.diffuseTexture = new Texture(
-            "assets/textures/distortion.png",
-            scene
-        );
-    }
-
-    planet.material = mat;
-    planet.scaling.setAll(opts.scale);
-    planet.position.x = opts.posRadius * Math.sin(opts.posRadians);
-    planet.position.z = opts.posRadius * Math.cos(opts.posRadians);
-
-    return planet;
-};
-
-const populatePlanetarySystems = (scene: Scene) => {
+const populatePlanetarySystem = (scene: Scene) => {
     let hg = {
         name: "hg",
         posRadians: Scalar.RandomRange(0, 2 * Math.PI),
-        posRadius: 14,
+        posRadius: 25,
         scale: 2,
         color: new Color3(0.45, 0.33, 0.18),
         rocky: true,
@@ -187,7 +167,7 @@ const populatePlanetarySystems = (scene: Scene) => {
     let aphro = {
         name: "aphro",
         posRadians: Scalar.RandomRange(0, 2 * Math.PI),
-        posRadius: 35,
+        posRadius: 45,
         scale: 3.5,
         color: new Color3(0.91, 0.89, 0.72),
         rocky: true,
@@ -195,7 +175,7 @@ const populatePlanetarySystems = (scene: Scene) => {
     let tellus = {
         name: "tellus",
         posRadians: Scalar.RandomRange(0, 2 * Math.PI),
-        posRadius: 65,
+        posRadius: 75,
         scale: 3.75,
         color: new Color3(0.17, 0.63, 0.05),
         rocky: true,
@@ -203,7 +183,7 @@ const populatePlanetarySystems = (scene: Scene) => {
     let ares = {
         name: "ares",
         posRadians: Scalar.RandomRange(0, 2 * Math.PI),
-        posRadius: 100,
+        posRadius: 115,
         scale: 3,
         color: new Color3(0.55, 0, 0),
         rocky: true,
@@ -218,17 +198,15 @@ const populatePlanetarySystems = (scene: Scene) => {
     };
     const planetData = [hg, aphro, tellus, ares, zeus];
     const planets: Mesh[] = [];
+
+    const glowLayer = new GlowLayer("glowLayer", scene);
+
     planetData.forEach((p) => {
-        const planet = createPlanet(p, scene);
-        // createAndStartOrbitAnimation(planet, scene);
+        const planet = AstroFactory.createPlanet(p, scene);
 
         planet.computeWorldMatrix(true);
 
-        // let planetTrail = new TrailMesh(planet.name + "-trail", planet, scene, .1, planet.orbitOptions.orbitalCircum, true);
-        // let trailMat = new StandardMaterial(planetTrail.name + "-mat", scene);
-        // trailMat.emissiveColor = trailMat.specularColor = trailMat.diffuseColor = planet.orbitOptions.color;
-        // planetTrail.material = trailMat;
-
+        glowLayer.addExcludedMesh(planet);
         planets.push(planet);
     });
 

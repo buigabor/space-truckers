@@ -1,7 +1,22 @@
-import { AppStartScene as App } from "./AppStartScene";
+import { SpaceTruckerApplication } from "./SpaceTruckerApplication";
 
-window.addEventListener("DOMContentLoaded", () => {
-    let canvas = document.getElementById("renderCanvas") as HTMLCanvasElement;
-    let app = new App(canvas);
+const canvas = document.getElementById("renderCanvas") as HTMLCanvasElement;
+const app = new SpaceTruckerApplication(canvas);
+
+const launchButton = document.getElementById("launchBtn");
+const pageLandingContent = document.getElementById("pageContainer");
+
+const launchButtonHandler = () => {
+    launchButton?.removeEventListener("click", launchButtonHandler);
+
+    if (pageLandingContent) {
+        pageLandingContent.style.display = "none";
+    }
+
+    canvas.classList.remove("background-canvas");
     app.run();
-});
+};
+
+launchButton?.addEventListener("click", launchButtonHandler);
+
+window.addEventListener("DOMContentLoaded", () => {});
