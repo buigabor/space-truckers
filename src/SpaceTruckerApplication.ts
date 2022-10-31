@@ -1,37 +1,38 @@
-import { AstroFactory } from "@/AstroFactory";
+import logger from "@/logger";
+import MainMenuScene from "@/main-menu/MainMenuScene";
 import { SpaceTruckerLoadingScreen } from "@/SpaceTruckerLoadingScreen";
 import setBaseAssetURL from "@/systems/setBaseAssetURL";
-import {
-    ArcRotateCamera,
-    Color3,
-    Engine,
-    GlowLayer,
-    Mesh,
-    PointLight,
-    Scalar,
-    Scene,
-    Texture,
-    Vector3,
-} from "@babylonjs/core";
-import { StarfieldProceduralTexture } from "@babylonjs/procedural-textures";
+import { ArcRotateCamera, Engine, Mesh, Scene } from "@babylonjs/core";
 import { AppStates } from "./appstates";
-import logger from "@/logger";
 
 setBaseAssetURL();
 export class SpaceTruckerApplication {
     private engine: Engine;
-    private scene: Scene;
+    private currentScene: Scene | null;
+    private stateMachine: Generator<
+        AppStates | null,
+        AppStates | null,
+        AppStates | null
+    >;
+    private mainMenu!: MainMenuScene;
 
     constructor(readonly canvas: HTMLCanvasElement) {
         this.engine = new Engine(canvas);
         this.engine.loadingScreen = new SpaceTruckerLoadingScreen(this.engine);
+        this.currentScene = null;
+        this.stateMachine = this.appStateMachine();
+        // this.scene = createScene(this.engine, this.canvas);
+
         window.addEventListener("resize", () => {
             this.engine.resize();
         });
-        this.scene = createScene(this.engine, this.canvas);
     }
 
-    *appStateMachine() {
+    *appStateMachine(): Generator<
+        AppStates | null,
+        AppStates | null,
+        AppStates | null
+    > {
         let previousState: AppStates | null = null;
         let currentState: AppStates | null = null;
 
@@ -48,7 +49,7 @@ export class SpaceTruckerApplication {
         }
 
         while (true) {
-            let nextState: AppStates | null = yield currentState;
+            let nextState = yield currentState;
             if (nextState !== null && nextState !== undefined) {
                 setState(nextState);
                 if (nextState === AppStates.EXITING) {
@@ -58,35 +59,73 @@ export class SpaceTruckerApplication {
         }
     }
 
-    run() {
-        this.engine.runRenderLoop(() => {
-            this.scene.render();
+    async initialize() {
+        this.engine.enterFullscreen(false);
+        this.engine.displayLoadingUI();
+        this.moveNextAppState(AppStates.INITIALIZING);
+        // for simulating loading times
+        const p = new Promise<void>((res) => {
+            setTimeout(() => res(), 1500);
         });
-
-        this.injectInspector(this.scene);
+        await p;
+        this.engine.hideLoadingUI();
+        this.goToMainMenu();
     }
 
-    public async injectInspector(scene: Scene) {
-        try {
-            await Promise.all([
-                import("@babylonjs/core/Debug/debugLayer"),
-                import("@babylonjs/inspector"),
-                import("@babylonjs/node-editor"),
-            ]);
-            scene.debugLayer.show({
-                handleResize: true,
-                overlay: true,
-            });
-        } catch (e) {
-            console.warn("Cannot inject inspector.", e);
+    goToMainMenu() {
+        this.engine.displayLoadingUI();
+        this.mainMenu = new MainMenuScene(this.engine);
+        this.engine.hideLoadingUI();
+        this.moveNextAppState(AppStates.MENU);
+    }
+
+    async run() {
+        await this.initialize();
+        this.engine.runRenderLoop(() => this.onRender());
+    }
+
+    onRender() {
+        // update loop
+        let state = this.currentState;
+
+        switch (state.value) {
+            case AppStates.CREATED:
+            case AppStates.INITIALIZING:
+                break;
+            case AppStates.CUTSCENE:
+                break;
+            case AppStates.MENU:
+                this.currentScene = this.mainMenu.scene;
+                break;
+            case AppStates.PLANNING:
+                break;
+            case AppStates.DRIVING:
+                break;
+            case AppStates.EXITING:
+                break;
+            default:
+                break;
         }
+        this.currentScene?.render(true);
+        // this.injectInspector(this.currentScene);
+    }
+
+    get currentState() {
+        return this.stateMachine.next();
+    }
+
+    get activeScene() {
+        return this.currentScene;
+    }
+
+    moveNextAppState(state: AppStates) {
+        return this.stateMachine.next(state).value;
     }
 }
 
 const createScene = function (engine: Engine, canvas: HTMLCanvasElement) {
-    let startScene = createStartScene(engine);
-
-    return startScene.scene;
+    const mainMenu = new MainMenuScene(engine);
+    return mainMenu.scene;
 };
 
 export interface SceneHolder {
@@ -95,120 +134,3 @@ export interface SceneHolder {
     star: Mesh;
     planets: Mesh[];
 }
-
-export const createStartScene = (engine: Engine) => {
-    const camAlpha = 0;
-    const camBeta = -Math.PI / 4;
-    const camDist = 350;
-    const camTarget = Vector3.Zero();
-
-    const scene = new Scene(engine);
-
-    const env = setupEnvironment(scene);
-    const star = AstroFactory.createStar(scene);
-    const planets = populatePlanetarySystem(scene);
-
-    const camera = new ArcRotateCamera(
-        "camera1",
-        camAlpha,
-        camBeta,
-        camDist,
-        camTarget,
-        scene
-    );
-    camera.attachControl(true);
-
-    let sceneHolder: SceneHolder = {
-        scene,
-        camera,
-        star,
-        planets,
-    };
-
-    return sceneHolder;
-};
-
-const setupEnvironment = (scene: Scene) => {
-    const starfieldPT = new StarfieldProceduralTexture(
-        "starfieldPT",
-        512,
-        scene
-    );
-    starfieldPT.coordinatesMode = Texture.FIXED_EQUIRECTANGULAR_MIRRORED_MODE;
-    starfieldPT.darkmatter = 1.5;
-    starfieldPT.distfading = 0.75;
-
-    const envOptions = {
-        skyboxSize: 512,
-        createGround: false,
-        skyboxTexture: starfieldPT,
-        environmentTexture: starfieldPT,
-    };
-
-    const light = new PointLight("starLight", Vector3.Zero(), scene);
-    light.intensity = 2;
-    light.diffuse = new Color3(0.98, 0.9, 1);
-    light.specular = new Color3(1, 0.9, 0.5);
-
-    const env = scene.createDefaultEnvironment(envOptions);
-
-    return env;
-};
-
-const populatePlanetarySystem = (scene: Scene) => {
-    let hg = {
-        name: "hg",
-        posRadians: Scalar.RandomRange(0, 2 * Math.PI),
-        posRadius: 25,
-        scale: 2,
-        color: new Color3(0.45, 0.33, 0.18),
-        rocky: true,
-    };
-    let aphro = {
-        name: "aphro",
-        posRadians: Scalar.RandomRange(0, 2 * Math.PI),
-        posRadius: 45,
-        scale: 3.5,
-        color: new Color3(0.91, 0.89, 0.72),
-        rocky: true,
-    };
-    let tellus = {
-        name: "tellus",
-        posRadians: Scalar.RandomRange(0, 2 * Math.PI),
-        posRadius: 75,
-        scale: 3.75,
-        color: new Color3(0.17, 0.63, 0.05),
-        rocky: true,
-    };
-    let ares = {
-        name: "ares",
-        posRadians: Scalar.RandomRange(0, 2 * Math.PI),
-        posRadius: 115,
-        scale: 3,
-        color: new Color3(0.55, 0, 0),
-        rocky: true,
-    };
-    let zeus = {
-        name: "zeus",
-        posRadians: Scalar.RandomRange(0, 2 * Math.PI),
-        posRadius: 140,
-        scale: 6,
-        color: new Color3(0, 0.3, 1),
-        rocky: false,
-    };
-    const planetData = [hg, aphro, tellus, ares, zeus];
-    const planets: Mesh[] = [];
-
-    const glowLayer = new GlowLayer("glowLayer", scene);
-
-    planetData.forEach((p) => {
-        const planet = AstroFactory.createPlanet(p, scene);
-
-        planet.computeWorldMatrix(true);
-
-        glowLayer.addExcludedMesh(planet);
-        planets.push(planet);
-    });
-
-    return planets;
-};
