@@ -16,7 +16,8 @@
     "noImplicitReturns": true,
     "skipLibCheck": true,
     "paths": { "@/*": ["./src/*"] },
-    "typeRoots": ["node_modules/@types", "types"]
+    "typeRoots": ["node_modules/@types", "types"],
+    "experimentalDecorators": true
   },
   "include": ["src", "types"]
 }
