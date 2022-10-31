@@ -1,4 +1,4 @@
-import { InjectInspector } from "@/InjectInspector";
+import { InjectInspector } from "@/InjectInspector.decorator";
 import {
     menuBackground,
     MenuItemOptions,
