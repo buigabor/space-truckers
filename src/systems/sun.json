@@ -12,7 +12,7 @@
         "radiusRange": 0,
         "directionRandomizer": 0
       },
-      "textureName": "../assets/textures/sun/sun_surface.png",
+      "textureName": "../src/assets/textures/sun/sun_surface.png",
       "animations": [],
       "minAngularSpeed": -0.4,
       "maxAngularSpeed": 0.4,
@@ -78,7 +78,7 @@
         "radiusRange": 0,
         "directionRandomizer": 0
       },
-      "textureName": "../assets/textures/sun/sun_flare.png",
+      "textureName": "../src/assets/textures/sun/sun_flare.png",
       "animations": [],
       "minAngularSpeed": 0,
       "maxAngularSpeed": 0,
@@ -150,7 +150,7 @@
         "radiusRange": 0,
         "directionRandomizer": 0
       },
-      "textureName": "../assets/textures/sun/sun.png",
+      "textureName": "../src/assets/textures/sun/sun.png",
       "animations": [],
       "minAngularSpeed": 0,
       "maxAngularSpeed": 0,
