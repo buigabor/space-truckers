@@ -1,26 +1,26 @@
-import { Logger } from "@babylonjs/core/Misc/logger";
+import { Logger } from '@babylonjs/core/Misc/logger';
 class ConsoleProxy {
-    constructor() {}
+  constructor() {}
 
-    logInfo(message: string) {
-        Logger.Log(message);
-    }
+  logInfo(message: string) {
+    Logger.Log(message);
+  }
 
-    logWarning(message: string) {
-        Logger.Warn(message);
-    }
+  logWarning(message: string) {
+    Logger.Warn(message);
+  }
 
-    logError(message: string) {
-        Logger.Error(message);
-    }
+  logError(message: string) {
+    Logger.Error(message);
+  }
 
-    logFatal(message: string) {
-        Logger.Error("FATAL: " + message);
-    }
+  logFatal(message: string) {
+    Logger.Error('FATAL: ' + message);
+  }
 
-    flushBuffer() {
-        Logger.ClearLogCache();
-    }
+  flushBuffer() {
+    Logger.ClearLogCache();
+  }
 }
 const theProxy = new ConsoleProxy();
 

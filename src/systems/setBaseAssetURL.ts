@@ -1,10 +1,7 @@
-import { ParticleSystemSet } from "@babylonjs/core/Particles/particleSystemSet";
+import { ParticleSystemSet } from '@babylonjs/core/Particles/particleSystemSet';
 
 export default function () {
-    const baseAssetsUrl = document.baseURI.substring(
-        0,
-        document.baseURI.lastIndexOf("/")
-    );
+  const baseAssetsUrl = document.baseURI.substring(0, document.baseURI.lastIndexOf('/'));
 
-    ParticleSystemSet.BaseAssetsUrl = baseAssetsUrl;
+  ParticleSystemSet.BaseAssetsUrl = baseAssetsUrl;
 }
