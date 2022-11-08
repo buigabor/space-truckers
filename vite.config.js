@@ -1,15 +1,15 @@
-import { defineConfig } from "vite";
-import path from "node:path";
+import { defineConfig } from 'vite';
+import path from 'node:path';
 
 export default defineConfig(({ command, mode }) => {
-    return {
-        resolve: {
-            alias: [
-                {
-                    find: "@",
-                    replacement: path.resolve(__dirname, "src"),
-                },
-            ],
+  return {
+    resolve: {
+      alias: [
+        {
+          find: '@',
+          replacement: path.resolve(__dirname, 'src'),
         },
-    };
+      ],
+    },
+  };
 });
