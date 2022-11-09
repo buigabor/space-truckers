@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
 import path from 'node:path';
+import { defineConfig } from 'vite';
 
 export default defineConfig(({ command, mode }) => {
   return {
@@ -11,5 +11,6 @@ export default defineConfig(({ command, mode }) => {
         },
       ],
     },
+    assetsInclude: '**/*.m4a',
   };
 });
