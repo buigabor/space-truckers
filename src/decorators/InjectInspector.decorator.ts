@@ -8,6 +8,7 @@ const injectInspectorFn = async (scene: Scene) => {
       import('@babylonjs/inspector'),
       import('@babylonjs/node-editor'),
     ]);
+    scene.debugLayer.setAsActiveScene();
     scene.debugLayer.show({
       handleResize: true,
       overlay: true,
