@@ -1,6 +1,6 @@
-import { Actions } from '@/actions';
+import { Action } from '@/actions';
 
-export type InputControlsMap = Record<string ,  Actions | number>;
+export type InputControlsMap = Record<string ,  Action | number>;
 
 export const inputControlsMap = {
   /* Keyboard Mappings */
@@ -34,7 +34,7 @@ export const inputControlsMap = {
   rStickDown: 'ROTATE_DOWN',
   rStickRight: 'ROTATE_RIGHT',
   rStickLeft: 'ROTATE_LEFT'
-} as Record<string, Actions>;
+} as Record<string, Action>;
 
 interface JoystickValue {
   x: number;
