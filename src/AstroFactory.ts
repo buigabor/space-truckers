@@ -1,3 +1,4 @@
+import sunParticles from '@/systems/smallSun.json';
 import {
   Animation,
   Color3,
@@ -12,11 +13,10 @@ import {
   Texture,
   TrailMesh,
 } from '@babylonjs/core';
-import sunParticles from '@/systems/sun.json';
 
-import rockTextureN from '@/assets/textures/rockn.png';
-import rockTexture from '@/assets/textures/rock.png';
 import distortTexture from '@/assets/textures/distortion.png';
+import rockTexture from '@/assets/textures/rock.png';
+import rockTextureN from '@/assets/textures/rockn.png';
 
 interface PlanetOptions {
   name: string;
@@ -33,7 +33,7 @@ interface Planet extends Mesh {
 }
 
 export default class AstroFactory {
-  static createStar(scene: Scene) {
+  static createSmallStar(scene: Scene) {
     const starDiam = 16;
     const star = MeshBuilder.CreateSphere('star', { diameter: starDiam, segments: 128 }, scene);
 

@@ -54,7 +54,11 @@ export class SpaceTruckerLoadingScreen implements ILoadingScreen {
       }
     });
 
-    this.textContainer = AdvancedDynamicTexture.CreateFullscreenUI('loadingUI', true, this.startScene.scene);
+    this.textContainer = AdvancedDynamicTexture.CreateFullscreenUI(
+      'loadingUI',
+      true,
+      this.startScene.scene,
+    );
     const textBlock = new TextBlock('textBlock', this.loadingUIText);
     textBlock.fontSize = '62pt';
     textBlock.color = 'antiquewhite';
@@ -78,7 +82,8 @@ export class SpaceTruckerLoadingScreen implements ILoadingScreen {
     this.totalToLoad = evt.total || this.currentAmountLoaded;
     if (this.progressAvailable) {
       this.loadingUIText =
-        'Loading Space-Truckers: The Video Game... ' + ((this.currentAmountLoaded / this.totalToLoad) * 100).toFixed(2);
+        'Loading Space-Truckers: The Video Game... ' +
+        ((this.currentAmountLoaded / this.totalToLoad) * 100).toFixed(2);
     }
   }
 }
@@ -92,7 +97,7 @@ const createLoadingScene = (engine: Engine) => {
   const scene = new Scene(engine);
 
   const env = setupEnvironment(scene);
-  const star = AstroFactory.createStar(scene);
+  const star = AstroFactory.createSmallStar(scene);
   const planets = populatePlanetarySystem(scene);
 
   const camera = new ArcRotateCamera('camera1', camAlpha, camBeta, camDist, camTarget, scene);

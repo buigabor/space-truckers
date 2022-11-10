@@ -8,7 +8,7 @@
       "isBillboardBased": false,
       "particleEmitterType": {
         "type": "SphereParticleEmitter",
-        "radius": 250,
+        "radius": 8,
         "radiusRange": 0,
         "directionRandomizer": 0
       },
@@ -74,7 +74,7 @@
       "renderingGroupId": 0,
       "particleEmitterType": {
         "type": "SphereParticleEmitter",
-        "radius": 250,
+        "radius": 8,
         "radiusRange": 0,
         "directionRandomizer": 0
       },
@@ -146,7 +146,7 @@
       "capacity": 600,
       "particleEmitterType": {
         "type": "SphereParticleEmitter",
-        "radius": 250,
+        "radius": 8,
         "radiusRange": 0,
         "directionRandomizer": 0
       },
