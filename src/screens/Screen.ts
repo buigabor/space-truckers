@@ -1,4 +1,4 @@
-import { Actions, ScreenActionFunction } from '@/actions';
+import { Action, ScreenActionFunction } from '@/actions';
 import { SpaceTruckerInputProcessor } from '@/input-management/SpaceTruckerInputProcessor';
 import { Scene } from '@babylonjs/core';
 
@@ -7,9 +7,9 @@ export interface Screen extends ScreenActions {
   scene: Scene;
   actionProcessor: SpaceTruckerInputProcessor;
 
-  update(): void;
+  update(deltaTime?: number): void;
 }
 
 type ScreenActions = {
-  [key in Actions]?: ScreenActionFunction;
+  [key in Action]?: ScreenActionFunction;
 };

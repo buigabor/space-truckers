@@ -1,4 +1,4 @@
-export type ScreenActionFunction = (priorState: boolean, inputParam?: any) => boolean;
+export type ScreenActionFunction = (priorState: boolean, inputParam?: any) => boolean | void;
 
 export interface InputAction {
   action: Action;

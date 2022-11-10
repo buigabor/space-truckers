@@ -9,7 +9,7 @@ type ActionMap = {
 };
 
 type ActionState = {
-  [key in Action | number]?: boolean;
+  [key in Action | number]?: boolean | void;
 };
 
 export class SpaceTruckerInputProcessor {
