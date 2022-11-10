@@ -6,10 +6,6 @@
     "build": "tsc && vite build",
     "preview": "tsc && vite build && vite preview --host --open"
   },
-  "typeRoots": [
-    "node_modules/@types",
-    "src/@types"
-  ],
   "dependencies": {
     "@babylonjs/core": "^5.30.0",
     "@babylonjs/gui": "^5.30.0",
@@ -19,7 +15,8 @@
     "@babylonjs/materials": "^5.30.0",
     "@babylonjs/node-editor": "^5.30.0",
     "@babylonjs/procedural-textures": "^5.30.0",
-    "@babylonjs/serializers": "^5.30.0"
+    "@babylonjs/serializers": "^5.30.0",
+    "ammo.js": "github:kripken/ammo.js"
   },
   "devDependencies": {
     "prettier": "^2.7.1",
