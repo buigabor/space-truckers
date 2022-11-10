@@ -1,5 +1,4 @@
-import { Actions } from '@/actions';
-import titleMusic from '@/assets/audio/space-trucker-title-theme.wav';
+import { Action } from '@/actions';
 import babylonjsTexture from '@/assets/textures/babylonjs-logo.png';
 import poweredByTexture from '@/assets/textures/powered-by.png';
 import rigTexture from '@/assets/textures/space-trucker-and-rig.png';
@@ -9,6 +8,8 @@ import { SpaceTruckerInputProcessor } from '@/input-management/SpaceTruckerInput
 import logger from '@/logger';
 import { Screen } from '@/screens/Screen';
 import CutSceneSegment from '@/screens/splash/CutSceneSegment';
+import SpaceTruckerSoundManager from '@/sound-management/SpaceTruckerSoundManager';
+import { SoundId } from '@/sound-management/spaceTruckerSoundMap';
 import {
   Animation,
   ArcRotateCamera,
@@ -20,7 +21,6 @@ import {
   MeshBuilder,
   Observable,
   Scene,
-  Sound,
   StandardMaterial,
   Texture,
   Vector3,
@@ -53,7 +53,7 @@ const scaleAnimation = new Animation(
   true,
 );
 
-const actionList = [{ action: Actions.ACTIVATE, shouldBounce: () => false }];
+const actionList = [{ action: Action.ACTIVATE, shouldBounce: () => false }];
 
 @InjectInspector
 export default class SplashScreen implements Screen {
@@ -71,7 +71,7 @@ export default class SplashScreen implements Screen {
 
   private ctaBlock!: TextBlock;
 
-  private music: Sound;
+  private audioManager: SpaceTruckerSoundManager;
 
   public name: string;
 
@@ -83,7 +83,11 @@ export default class SplashScreen implements Screen {
 
   public actionProcessor: SpaceTruckerInputProcessor;
 
-  constructor(engine: Engine) {
+  get music() {
+    return this.audioManager.getSound(SoundId.TITLE);
+  }
+
+  constructor(engine: Engine, inputManager: SpaceTruckerInputManager) {
     this.name = 'SplashScreen';
     this.scene = new Scene(engine);
     this.onReadyObservable = new Observable();
@@ -92,7 +96,8 @@ export default class SplashScreen implements Screen {
 
     this.setupEnvironment();
 
-    const inputManager = new SpaceTruckerInputManager(engine);
+    this.audioManager = new SpaceTruckerSoundManager(this.scene, SoundId.TITLE);
+
     this.actionProcessor = new SpaceTruckerInputProcessor(this, inputManager, actionList);
 
     this.poweredBySegment = this.buildPoweredBySegment();
@@ -111,18 +116,12 @@ export default class SplashScreen implements Screen {
       });
     });
 
-    this.music = new Sound(
-      'titleMusic',
-      titleMusic,
-      this.scene,
-      () => {
-        this.onReadyObservable.notifyObservers(true);
-      },
-      { loop: true, autoplay: true, volume: 0.15 },
-    );
+    this.audioManager.onReadyObservable.addOnce(() => this.onReadyObservable.notifyObservers(true));
   }
 
   run() {
+    this.music.setVolume(0.1);
+    this.music.play();
     this.currentSegment = this.poweredBySegment;
     this.music.setVolume(1, 60);
     this.currentSegment.start();
