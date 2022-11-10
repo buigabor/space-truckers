@@ -1,9 +1,9 @@
-import { Actions } from '@/actions';
+import { Action } from '@/actions';
 import InjectInspector from '@/decorators/InjectInspector.decorator';
 import SpaceTruckerInputManager from '@/input-management/SpaceTruckerInputManager';
 import { SpaceTruckerInputProcessor } from '@/input-management/SpaceTruckerInputProcessor';
 import logger from '@/logger';
-import { menuBackground, selectionIcon } from '@/screens/main-menu/constants';
+import { menuBackground, selectionIcon } from '@/screens/main-menu/menuImages';
 import { Screen } from '@/screens/Screen';
 import {
   ArcRotateCamera,
@@ -33,12 +33,12 @@ import {
 import { StarfieldProceduralTexture } from '@babylonjs/procedural-textures';
 
 const menuActionList = [
-  { action: Actions.ACTIVATE, shouldBounce: () => true },
-  { action: Actions.MOVE_UP, shouldBounce: () => true },
-  { action: Actions.MOVE_DOWN, shouldBounce: () => true },
-  { action: Actions.MOVE_RIGHT, shouldBounce: () => true },
-  { action: Actions.MOVE_LEFT, shouldBounce: () => true },
-  { action: Actions.GO_BACK, shouldBounce: () => true },
+  { action: Action.ACTIVATE, shouldBounce: () => true },
+  { action: Action.MOVE_UP, shouldBounce: () => true },
+  { action: Action.MOVE_DOWN, shouldBounce: () => true },
+  { action: Action.MOVE_RIGHT, shouldBounce: () => true },
+  { action: Action.MOVE_LEFT, shouldBounce: () => true },
+  { action: Action.GO_BACK, shouldBounce: () => true },
 ];
 
 export interface MenuItemOptions {
@@ -59,7 +59,7 @@ class MainMenuScreen implements Screen {
 
   private menuGrid!: Grid;
 
-  private selectedItemIdx!: number;
+  private _selectedItemIndex!: number;
 
   private selectedItemChanged = new Observable<number>();
 
@@ -78,10 +78,17 @@ class MainMenuScreen implements Screen {
   public onExitActionObservable: Observable<null>;
 
   public onPlayActionObservable: Observable<null>;
-  newIdx: number;
+
+  get selectedItem() {
+    const row = this.menuGrid.getChildrenAt(this.selectedItemIndex, 1);
+    if (row && row.length) {
+      return row[0];
+    }
+    return null;
+  }
 
   get selectedItemIndex() {
-    return this.selectedItemIdx;
+    return this._selectedItemIndex;
   }
 
   set selectedItemIndex(idx: number) {
@@ -90,11 +97,11 @@ class MainMenuScreen implements Screen {
     // TODO: use this in ImageGallery in pillar-of-babylonjs
     const newIdx = Scalar.Repeat(idx, itemCount);
 
-    this.selectedItemIdx = newIdx;
+    this._selectedItemIndex = newIdx;
     this.selectedItemChanged.notifyObservers(newIdx);
   }
 
-  constructor(engine: Engine) {
+  constructor(engine: Engine, inputManager: SpaceTruckerInputManager) {
     let scene = new Scene(engine);
 
     this.name = 'MainMenuScreen';
@@ -105,7 +112,6 @@ class MainMenuScreen implements Screen {
     this.onPlayActionObservable = new Observable();
     this.onExitActionObservable = new Observable();
 
-    const inputManager = new SpaceTruckerInputManager(engine);
     this.actionProcessor = new SpaceTruckerInputProcessor(this, inputManager, menuActionList);
 
     new ArcRotateCamera('menuCam', 0, 0, -30, Vector3.Zero(), this.scene, true);
@@ -114,9 +120,7 @@ class MainMenuScreen implements Screen {
     this.setupUi();
     this.addMenuItems();
     this.createSelectorIcon();
-    this.selectedItemIdx = 0;
-
-    this.newIdx = Scalar.Repeat(-1, this.menuGrid.rowCount);
+    this._selectedItemIndex = -1;
 
     this.selectedItemChanged.add(idx => {
       const menuGrid = this.menuGrid;
@@ -230,7 +234,9 @@ class MainMenuScreen implements Screen {
       title: 'Play',
       background: 'red',
       color: 'white',
-      onInvoked: () => console.log('Play button clicked'),
+      onInvoked: () => {
+        this.onMenuLeave(1000, () => this.onPlayActionObservable.notifyObservers(null));
+      },
     };
 
     const playButton = this.createMenuItem(playBtnOptions);
@@ -359,6 +365,16 @@ class MainMenuScreen implements Screen {
   }
 
   ACTIVATE(priorState: boolean, input: any) {
+    if (!priorState) {
+      // this is the first time through this action handler for this button press sequence
+      console.log('ACIVATE - ' + this.selectedItemIndex);
+      const selectedItem = this.selectedItem;
+
+      if (selectedItem && selectedItem.name === 'btPlay') {
+        this.onMenuLeave(1000, () => this.onPlayActionObservable.notifyObservers(null));
+      }
+    }
+    // indicate interest in maintaining state by returning anything other than 0, null, undefined, or false
     return false;
   }
 
