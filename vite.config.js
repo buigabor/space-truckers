@@ -11,6 +11,6 @@ export default defineConfig(({ command, mode }) => {
         },
       ],
     },
-    assetsInclude: '**/*.m4a',
+    assetsInclude: ['**/*.m4a', '**/*.env'],
   };
 });
