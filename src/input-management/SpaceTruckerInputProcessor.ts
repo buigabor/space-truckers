@@ -1,27 +1,31 @@
-import { Actions, InputAction, ScreenActionFunction } from '@/actions';
+import { Action, InputAction, ScreenActionFunction } from '@/actions';
 import SpaceTruckerInputManager, { Input } from '@/input-management/SpaceTruckerInputManager';
 import logger from '@/logger';
 import { Screen } from '@/screens/Screen';
-import { Scene, setAndStartTimer } from '@babylonjs/core';
+import { Nullable, Observer, Scene, setAndStartTimer } from '@babylonjs/core';
 
 type ActionMap = {
-  [key in Actions | number]?: ScreenActionFunction;
+  [key in Action | number]?: ScreenActionFunction;
+};
+
+type ActionState = {
+  [key in Action | number]?: boolean;
 };
 
 export class SpaceTruckerInputProcessor {
-  private controlsAttached: any;
+  private controlsAttached: boolean;
 
   private scene: Scene;
 
   private inputManager: SpaceTruckerInputManager;
 
-  private onInputObserver: any;
+  private onInputObserver: Nullable<Observer<Input[]>>;
 
   private inputQueue: Input[][];
 
-  private lastActionState: any;
+  private lastActionState: Nullable<ActionState>;
 
-  private actionState: any;
+  private actionState: ActionState;
 
   private actionMap: ActionMap;
 
@@ -45,7 +49,7 @@ export class SpaceTruckerInputProcessor {
   attachControl() {
     if (!this.controlsAttached) {
       this.scene.attachControl();
-      this.inputManager.registerInputForScene(this.scene);
+      this.inputManager.registerInputForScene(this.scene, this.screen.name);
       this.onInputObserver = this.inputManager.onInputAvailableObservable.add(inputs => {
         this.inputAvailableHandler(inputs);
       });
@@ -114,7 +118,7 @@ export class SpaceTruckerInputProcessor {
         // function being dispatched. Calling bind on the function object returns a new function with the correct
         // "this" set as expected. That function is immediately invoked with the target and magnitude parameter values.
 
-        this.actionState[input.action] = actionFn(priorState, inputParam);
+        this.actionState[input.action] = actionFn(Boolean(priorState), inputParam);
         // use the return value of the actionFn to allow handlers to maintain individual states (if they choose).
         // handlers that don't need to maintain state also don't need to know what to return,
         // since undefined == null == false.
@@ -133,7 +137,7 @@ function bounce(
 
     const observableContext = inputProcessor.screen.scene.onBeforeRenderObservable;
 
-    return (priorState: any, inputParam: any) => {
+    return (priorState: boolean, inputParam: any) => {
       if (isBounced) {
         return false;
       }

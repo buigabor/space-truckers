@@ -1,11 +1,11 @@
 export type ScreenActionFunction = (priorState: boolean, inputParam?: any) => boolean;
 
 export interface InputAction {
-  action: Actions;
+  action: Action;
   shouldBounce: () => boolean;
 }
 
-export enum Actions {
+export enum Action {
   MOVE_UP = 'MOVE_UP',
   MOVE_DOWN = 'MOVE_DOWN',
   MOVE_LEFT = 'MOVE_LEFT',

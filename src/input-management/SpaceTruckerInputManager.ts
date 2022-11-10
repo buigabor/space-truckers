@@ -1,13 +1,13 @@
-import { Actions } from '@/actions';
+import { Action } from '@/actions';
 import {
-  InputControlsMap,
   inputControlsMap,
+  InputControlsMap,
   mapRotationInputToActions,
   mapStickTranslationInputToActions,
   normalizeJoystickInputs,
 } from '@/input-management/inputActionMaps';
 import logger from '@/logger';
-import { Engine, Gamepad, KeyboardEventTypes, Observable, Scene } from '@babylonjs/core';
+import { Gamepad, KeyboardEventTypes, Observable, Scene } from '@babylonjs/core';
 
 interface InputSubscription {
   scene: Scene;
@@ -15,14 +15,12 @@ interface InputSubscription {
 }
 
 export interface Input {
-  action: Actions | number;
-  lastEvent: Actions | number;
+  action: Action | number;
+  lastEvent: Action | number;
 }
 
 export default class SpaceTruckerInputManager {
   private inputMap: InputControlsMap;
-
-  private engine: Engine;
 
   private gamepad: Gamepad | null;
 
@@ -32,17 +30,16 @@ export default class SpaceTruckerInputManager {
 
   public onInputAvailableObservable: Observable<Input[]>;
 
-  constructor(engine: Engine, controlsMap = inputControlsMap) {
+  constructor(controlsMap = inputControlsMap) {
     this.inputMap = {};
-    this.engine = engine;
     this.onInputAvailableObservable = new Observable<Input[]>();
     this.gamepad = null;
     this.inputSubscriptions = [];
     this.controlsMap = controlsMap;
   }
 
-  registerInputForScene(sceneToRegister: Scene) {
-    logger.logInfo(`registering input for scene ${sceneToRegister}`);
+  registerInputForScene(sceneToRegister: Scene, screenName: string) {
+    logger.logInfo(`registering input for scene ${screenName}`);
 
     const registration = {
       scene: sceneToRegister,
