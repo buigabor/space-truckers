@@ -25,9 +25,7 @@ const InjectInspector = (target: any) => {
   const f: any = function (...args: any[]) {
     console.log('Hook before original constructor...');
 
-    const newArgs = [...args].reverse();
-
-    const instance = new original(...newArgs);
+    const instance = new original(...args);
 
     console.log('Hook after original constructor...');
 
