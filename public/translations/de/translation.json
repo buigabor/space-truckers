@@ -1,0 +1,44 @@
+{
+  "title": "busfinder – Bus-Preise vergleichen - Bus mit Fahrer mieten",
+  "description": "Jetzt den passenden Bus mieten. Angebote für Reisebusse von über 150 Busunternehmen in Österreich und Deutschland vergleichen und sofort buchen.",
+  "keywords": "busfinder, Bus-Angebot, Reisebus mieten, Reisebus, Bus mieten, Busvermietung, Busunternehmen, Bus mieten mit Fahrer, Online Bus, Busse",
+  "about": "Über",
+  "back": "zurück",
+  "account": {
+    "bookings": {
+      "header": "Meine Buchungen"
+    },
+    "core_data": {
+      "header": "Stammdaten",
+      "not_verified_necessary": "Ihre Kundengruppe wurde noch nicht verifiziert. Bitte kontaktieren Sie uns um ihre Kundengruppe zu bestätigen und gegebenenfalls für Rabatte freigeschaltet zu werden.",
+      "not_verified_not_necessary": "Ihre Kundengruppe wurde noch nicht verifiziert. Bitte kontaktieren Sie uns um ihre Kundengruppe zu bestätigen.",
+      "submit": "Stammdaten aktualisieren",
+      "verified": "Ihre Kundengruppe wurde am {{date}} verifiziert.",
+      "non_customer": "Sie können Ihre Daten im Einsatztool bearbeiten."
+    },
+    "my": "Mein Account",
+    "password_edit": {
+      "header": "Passwort ändern",
+      "new_password": "Neues Passwort",
+      "new_password_repeat": "Neues Passwort wiederholen",
+      "no_match": "Ungültiges Passwort.",
+      "old_password": "Altes Passwort",
+      "submit": "Passwort ändern",
+      "success": "Ihr Passwort wurde erfolgreich geändert.",
+      "text": "Hier können Sie Ihr Passwort ändern.",
+      "error": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut."
+    },
+    "travels": {
+      "button": "Zu meinen Routen",
+      "header": "Meine Routen"
+    },
+    "contact": {
+      "header": "Kontakt"
+    },
+    "school": {
+      "header": "Bonuspunkte",
+      "non_school": "Ihr Account ist kein verifizierter Schulaccount.",
+      "not_found": "Ihre Schule wurde in unserem System leider nicht gefunden."
+    }
+  }
+}
