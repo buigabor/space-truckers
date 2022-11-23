@@ -5,6 +5,7 @@
   "about": "About",
   "back": "back",
   "next": "next",
+  "go": "go",
   "account": {
     "bookings": {
       "header": "My Bookings"
