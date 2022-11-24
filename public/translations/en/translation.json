@@ -45,5 +45,6 @@
   },
   "dog": "Dog",
   "email": "My beautiful email: <a href=\"mailto:{{email}}\">{{email}}</a>",
-  "booking-number": "My Booking Number: {{bookingNumber}}"
+  "booking-number": "My\u00A0Booking\u00A0Number: {{bookingNumber}}",
+  "footer_company_info_content": "<p><b>blabablala</b><br />blabablalablabablala<br />1030 Vienna</p><p><a href=\"mailto:{{email}}\">{{email}}</a><br />{{phoneNumber}}</p>"
 }
