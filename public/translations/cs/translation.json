@@ -1,1 +1,53 @@
-{}
+{
+    "booking-number": "Moje rezervační číslo: {{bookingNumber}}",
+    "footer_company_info_content": "<p><b>blabablala</b><br />blabablalablabablala<br />1030 Vídeň</p><p><a href=\"mailto:{{email}}\">{{email}}</a><br />{{phoneNumber}}</p>",
+    "bus_count_one": "{{count}} Autobus",
+    "bus_count_other": "{{count}} Autobusy",
+    "title": "busfinder - porovnání cen autobusů - pronájem autobusu s řidičem",
+    "description": "Pronajměte si ten správný autobus hned teď. Porovnejte nabídky autobusů od více než 150 autobusových dopravců v Rakousku a Německu a okamžitě si je rezervujte.",
+    "keywords": "busfinder, nabídka autobusů, pronájem autobusu, autobus, pronájem autobusu, pronájem autobusu, autobusová společnost, pronájem autobusu s řidičem, online autobus, autobusy",
+    "about": "O stránkách",
+    "back": "zpět",
+    "next": "další",
+    "go": "přejít na",
+    "account": {
+        "bookings": {
+            "header": "Moje rezervace"
+        },
+        "core_data": {
+            "header": "Základní údaje",
+            "not_verified_necessary": "Vaše skupina zákazníků ještě nebyla ověřena. Kontaktujte nás, abychom ověřili vaši skupinu zákazníků a získali nárok na speciální slevy.",
+            "not_verified_not_necessary": "Vaše skupina zákazníků ještě nebyla ověřena. Kontaktujte nás prosím pro potvrzení vaší skupiny zákazníků.",
+            "submit": "Aktualizace základních údajů",
+            "verified": "Vaše skupina zákazníků byla ověřena na adrese {{date}}.",
+            "non_customer": "Údaje můžete upravovat v obslužném nástroji."
+        },
+        "my": "Můj účet",
+        "password_edit": {
+            "header": "Změna hesla",
+            "new_password": "Nové heslo",
+            "new_password_repeat": "Opakování nového hesla",
+            "no_match": "Neplatné heslo.",
+            "old_password": "Staré heslo",
+            "submit": "Změna hesla",
+            "success": "Vaše heslo bylo úspěšně změněno.",
+            "text": "Zde si můžete změnit heslo.",
+            "error": "Došlo k chybě. Zkuste to prosím znovu."
+        },
+        "travels": {
+            "button": "Moje trasy",
+            "header": "Moje trasy"
+        },
+        "contact": {
+            "header": "Kontakt"
+        },
+        "school": {
+            "header": "Bonusové body",
+            "non_school": "Váš účet není ověřeným školním účtem.",
+            "not_found": "Bohužel jsme vaši školu v našem systému nenašli."
+        }
+    },
+    "dog": "Ne pes",
+    "email": "Můj krásný e-mail: <a href=\"mailto:{{email}}\">{{email}}</a>",
+    "word": "%(count)s word"
+}
