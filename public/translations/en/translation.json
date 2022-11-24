@@ -1,46 +1,47 @@
 {
-  "title": "busfinder – compare bus prices - rent a bus with a driver",
-  "description": "Rent the right bus now. Compare offers for coaches from over 150 bus companies in Austria and Germany and book them immediately.",
-  "keywords": "busfinder, bus offer, rent a coach, coach, rent a bus, rent a bus, bus company, rent a bus with driver, online bus, buses",
-  "about": "About",
-  "back": "back",
-  "next": "next",
-  "go": "go",
-  "account": {
-    "bookings": {
-      "header": "My Bookings"
+    "title": "busfinder – compare bus prices - rent a bus with a driver",
+    "description": "Rent the right bus now. Compare offers for coaches from over 150 bus companies in Austria and Germany and book them immediately.",
+    "keywords": "busfinder, bus offer, rent a coach, coach, rent a bus, rent a bus, bus company, rent a bus with driver, online bus, buses",
+    "about": "About",
+    "back": "back",
+    "next": "next",
+    "go": "go",
+    "account": {
+        "bookings": {
+            "header": "My Bookings"
+        },
+        "core_data": {
+            "header": "Core Data",
+            "not_verified_necessary": "Your customer group has not been verified yet. Please contact us to verify your customer group and to be eligible for special discounts.",
+            "not_verified_not_necessary": "Your customer group has not been verified yet. Please contact us to confirm your customer group.",
+            "submit": "Update Core Data",
+            "verified": "Your customer group has been verified on {{date}}.",
+            "non_customer": "You can edit your data in the operating tool."
+        },
+        "my": "My Account",
+        "password_edit": {
+            "header": "Change Password",
+            "new_password": "New Password",
+            "new_password_repeat": "Repeat new Password",
+            "no_match": "Invalid Password.",
+            "old_password": "Old Password",
+            "submit": "Change Password",
+            "success": "Your Password has been changed successfully.",
+            "text": "Here you can change your password.",
+            "error": "An error occurred. Please try again."
+        },
+        "travels": {
+            "button": "My routes",
+            "header": "My Routes"
+        },
+        "contact": {
+            "header": "Contact"
+        },
+        "school": {
+            "header": "Bonus points",
+            "non_school": "Your Account is not a verified school account.",
+            "not_found": "Unfortunately we couldn't find you school in our system."
+        }
     },
-    "core_data": {
-      "header": "Core Data",
-      "not_verified_necessary": "Your customer group has not been verified yet. Please contact us to verify your customer group and to be eligible for special discounts.",
-      "not_verified_not_necessary": "Your customer group has not been verified yet. Please contact us to confirm your customer group.",
-      "submit": "Update Core Data",
-      "verified": "Your customer group has been verified on {{date}}.",
-      "non_customer": "You can edit your data in the operating tool."
-    },
-    "my": "My Account",
-    "password_edit": {
-      "header": "Change Password",
-      "new_password": "New Password",
-      "new_password_repeat": "Repeat new Password",
-      "no_match": "Invalid Password.",
-      "old_password": "Old Password",
-      "submit": "Change Password",
-      "success": "Your Password has been changed successfully.",
-      "text": "Here you can change your password.",
-      "error": "An error occurred. Please try again."
-    },
-    "travels": {
-      "button": "My routes",
-      "header": "My Routes"
-    },
-    "contact": {
-      "header": "Contact"
-    },
-    "school": {
-      "header": "Bonus points",
-      "non_school": "Your Account is not a verified school account.",
-      "not_found": "Unfortunately we couldn't find you school in our system."
-    }
-  }
+    "dog": "Dog"
 }
