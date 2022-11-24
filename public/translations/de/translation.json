@@ -45,5 +45,6 @@
     "email": "Meine schöne E-Mail: <a href=\"mailto:{{email}}\">{{email}}</a>",
     "go": "gehen.",
     "dog": "Hund",
-    "booking-number": "Meine Buchungsnummer: {{bookingNumber}}"
+    "booking-number": "Meine Buchungsnummer: {{bookingNumber}}",
+    "footer_company_info_content": "<p><b>blabablala</b><br />blabablalablabablala<br />1030 Wien</p><p><a href=\"mailto:{{email}}\">{{email}}</a><br />{{phoneNumber}}</p>"
 }
