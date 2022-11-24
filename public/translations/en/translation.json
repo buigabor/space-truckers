@@ -44,5 +44,6 @@
     }
   },
   "dog": "Dog",
-  "email": "email: {{email}}"
+  "email": "My beautiful email: <a href=\"mailto:{{email}}\">{{email}}</a>",
+  "booking-number": "My Booking Number: {{bookingNumber}}"
 }
