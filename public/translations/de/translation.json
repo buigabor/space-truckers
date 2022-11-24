@@ -42,5 +42,8 @@
         }
     },
     "next": "nächste",
-    "email": "Meine schöne E-Mail: <a href=\"mailto:{{email}}\">{{email}}</a>"
+    "email": "Meine schöne E-Mail: <a href=\"mailto:{{email}}\">{{email}}</a>",
+    "go": "gehen.",
+    "dog": "Hund",
+    "booking-number": "Meine Buchungsnummer: {{bookingNumber}}"
 }
