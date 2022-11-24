@@ -48,6 +48,5 @@
     "booking-number": "My Booking Number: {{bookingNumber}}",
     "footer_company_info_content": "<p><b>blabablala</b><br />blabablalablabablala<br />1030 Vienna</p><p><a href=\"mailto:{{email}}\">{{email}}</a><br />{{phoneNumber}}</p>",
     "bus_count_one": "{{count}} Bus",
-    "bus_count_other": "{{count}} Buses",
-    "word": "%(count)s word"
+    "bus_count_other": "{{count}} Buses"
 }
