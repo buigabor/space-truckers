@@ -46,5 +46,7 @@
     "go": "gehen.",
     "dog": "Nicht Hund",
     "booking-number": "Meine Buchungsnummer: {{bookingNumber}}",
-    "footer_company_info_content": "<p><b>blabablala</b><br />blabablalablabablala<br />1030 Wien</p><p><a href=\"mailto:{{email}}\">{{email}}</a><br />{{phoneNumber}}</p>"
+    "footer_company_info_content": "<p><b>blabablala</b><br />blabablalablabablala<br />1030 Wien</p><p><a href=\"mailto:{{email}}\">{{email}}</a><br />{{phoneNumber}}</p>",
+    "bus_count_one": "{{count}} Bus",
+    "bus_count_other": "{{count}} Busse"
 }
