@@ -3,11 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <!-- files in public folder are served as root. Here the favicon is taken from the public folder. -->
-    <link rel="icon" type="image/png" href="favicon.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="favicon.png" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1,maximum-scale=1.0, minimum-scale=1.0"
-    />
+      content="width=device-width, initial-scale=1,maximum-scale=1.0, minimum-scale=1.0" />
     <title>Space-truckers</title>
     <style>
       .background-canvas {
@@ -43,13 +45,61 @@
   </head>
 
   <body>
-    <canvas id="renderCanvas" class="background-canvas"></canvas>
+    <canvas
+      id="renderCanvas"
+      class="background-canvas"></canvas>
     <div id="pageContainer">
       <div id="ctaRow">
         <button id="launchBtn">Launch</button>
       </div>
+
+      <p id="text"></p>
+      <p id="dynamic"></p>
+      <p id="booking-number"></p>
     </div>
 
-    <script type="module" src="/src/main.ts"></script>
+    <script
+      type="module"
+      src="/src/main.ts"></script>
+
+    <script
+      type="module"
+      src="/src/test.js">
+
+
+      // const keyInput = document.getElementById('key');
+
+      // const valInput = document.getElementById('value');
+
+      // const addBtn = document.getElementById('addBtn');
+      // const getBtn = document.getElementById('getBtn');
+
+      // getBtn.addEventListener('click', () => {
+      //   console.log(keyInput.value, valInput.value);
+      //   getTest();
+      // });
+
+      // addBtn.addEventListener('click', () => {
+      //   console.log(keyInput.value, valInput.value);
+      //   postTranslation();
+      // });
+
+      // const getTest = () => {
+      //   fetch('http://localhost:3001/');
+      // };
+
+      // const postTranslation = () => {
+      //   fetch('http://localhost:3001/', {
+      //     method: 'POST',
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     body: JSON.stringify({
+      //       key: keyInput.value,
+      //       value: valInput.value,
+      //     }),
+      //   });
+      // };
+    </script>
   </body>
 </html>
