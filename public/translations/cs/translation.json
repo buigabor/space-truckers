@@ -48,6 +48,5 @@
         }
     },
     "dog": "Ne pes",
-    "email": "Můj krásný e-mail: <a href=\"mailto:{{email}}\">{{email}}</a>",
-    "word": "%(count)s word"
+    "email": "Můj krásný e-mail: <a href=\"mailto:{{email}}\">{{email}}</a>"
 }
