@@ -41,5 +41,6 @@
             "not_found": "Ihre Schule wurde in unserem System leider nicht gefunden."
         }
     },
-    "next": "nächste"
+    "next": "nächste",
+    "email": "Meine schöne E-Mail: <a href=\"mailto:{{email}}\">{{email}}</a>"
 }
